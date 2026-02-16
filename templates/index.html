@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Study Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="layout">
+    <section class="hero">
+      <div>
+        <p class="kicker">Student Study Planner</p>
+        <h1>Plan study sessions that actually get done.</h1>
+        <p class="subtext">Track subjects, organize deadlines, and schedule focused blocks in one timeline board.</p>
+      </div>
+      <div class="overview">
+        <article class="metric">
+          <span>Total Subjects</span>
+          <strong>{{ subject_cards|length }}</strong>
+        </article>
+        <article class="metric">
+          <span>Pending Deadlines</span>
+          <strong>{{ total_pending }}</strong>
+        </article>
+        <article class="metric">
+          <span>Today</span>
+          <strong>{{ today }}</strong>
+        </article>
+      </div>
+    </section>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <section class="flash-wrap">
+          {% for msg in messages %}
+            <p class="flash">{{ msg }}</p>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+
+    <section class="grid">
+      <aside class="panel forms-panel">
+        <h2>Add Subject</h2>
+        <form method="post" action="{{ url_for('add_subject') }}" class="form-block">
+          <label>Subject Name</label>
+          <input type="text" name="name" placeholder="Calculus" required>
+          <label>Weekly Goal (hours)</label>
+          <input type="number" name="goal_hours" min="1" value="8" required>
+          <button type="submit">Save Subject</button>
+        </form>
+
+        <h2>Add Deadline</h2>
+        <form method="post" action="{{ url_for('add_deadline') }}" class="form-block">
+          <label>Subject</label>
+          <select name="subject_id" required {% if not subjects %}disabled{% endif %}>
+            {% for subject in subjects %}
+              <option value="{{ subject['id'] }}">{{ subject['name'] }}</option>
+            {% endfor %}
+          </select>
+          <label>Deadline Title</label>
+          <input type="text" name="title" placeholder="Project draft" required>
+          <label>Due Date</label>
+          <input type="date" name="due_date" required>
+          <label>Priority</label>
+          <select name="priority">
+            <option value="High">High</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Low">Low</option>
+          </select>
+          <button type="submit" {% if not subjects %}disabled{% endif %}>Save Deadline</button>
+        </form>
+
+        <h2>Add Study Block</h2>
+        <form method="post" action="{{ url_for('add_study_block') }}" class="form-block">
+          <label>Subject</label>
+          <select name="subject_id" required {% if not subjects %}disabled{% endif %}>
+            {% for subject in subjects %}
+              <option value="{{ subject['id'] }}">{{ subject['name'] }}</option>
+            {% endfor %}
+          </select>
+          <label>Date</label>
+          <input type="date" name="block_date" required>
+          <label>Start Time</label>
+          <input type="time" name="start_time" required>
+          <label>End Time</label>
+          <input type="time" name="end_time" required>
+          <label>Focus Task</label>
+          <input type="text" name="focus" placeholder="Review chapter 5" required>
+          <button type="submit" {% if not subjects %}disabled{% endif %}>Save Block</button>
+        </form>
+      </aside>
+
+      <section class="panel timeline-panel">
+        <h2>Timeline Board</h2>
+        {% if timeline_items %}
+          <div class="timeline-list">
+            {% for item in timeline_items %}
+              <article class="timeline-item {{ item['kind'] }}">
+                <div>
+                  <p class="title">{{ item['title'] }}</p>
+                  <p class="meta">{{ item['subject_name'] }} | {{ item['date'] }}{% if item.get('range') %} | {{ item['range'] }}{% endif %}</p>
+                </div>
+                <div class="item-right">
+                  {% if item['kind'] == 'deadline' %}
+                    <span class="pill priority-{{ item['priority']|lower }}">{{ item['priority'] }}</span>
+                    <form method="post" action="{{ url_for('toggle_deadline', deadline_id=item['id']) }}">
+                      <button type="submit" class="mini-btn">{{ 'Mark Pending' if item['status'] == 'Done' else 'Mark Done' }}</button>
+                    </form>
+                  {% else %}
+                    <span class="pill priority-block">Study Block</span>
+                    <form method="post" action="{{ url_for('toggle_block', block_id=item['id']) }}">
+                      <button type="submit" class="mini-btn">{{ 'Mark Pending' if item['status'] == 'Done' else 'Mark Done' }}</button>
+                    </form>
+                  {% endif %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="empty">No items yet. Add a subject first, then set deadlines and study blocks.</p>
+        {% endif %}
+      </section>
+    </section>
+
+    <section class="panel subjects-panel">
+      <h2>Subject Progress</h2>
+      {% if subject_cards %}
+        <div class="subject-grid">
+          {% for subject in subject_cards %}
+            <article class="subject-card">
+              <h3>{{ subject['name'] }}</h3>
+              <p class="meta">Goal {{ subject['goal_hours'] }}h/week | Planned {{ subject['planned_hours'] }}h | Completed {{ subject['completed_hours'] }}h</p>
+              <div class="bar-shell">
+                <div class="bar-fill" style="width: {{ subject['progress'] }}%"></div>
+              </div>
+              <p class="meta">Progress {{ subject['progress'] }}% | Pending deadlines {{ subject['pending_deadlines'] }}</p>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty">Add your first subject to start building your study plan.</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,272 @@
+:root {
+  --bg: #f4efe6;
+  --panel: #fff9f0;
+  --ink: #1f2933;
+  --muted: #5f6c7a;
+  --line: #d3c9b6;
+  --accent: #0f766e;
+  --accent-soft: #ccf4ef;
+  --warning: #d97706;
+  --danger: #c2410c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 15% 20%, #fff7e8 0%, #f4efe6 45%, #ece3d2 100%);
+}
+
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.74rem;
+  color: var(--accent);
+  margin: 0;
+}
+
+h1 {
+  margin: 0.35rem 0;
+  font-size: clamp(1.65rem, 4vw, 2.4rem);
+  line-height: 1.12;
+}
+
+.subtext {
+  margin: 0;
+  color: var(--muted);
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 0.7rem;
+}
+
+.metric {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem;
+  box-shadow: 0 5px 0 #d8cab0;
+}
+
+.metric span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.metric strong {
+  font-size: 1.2rem;
+}
+
+.flash-wrap {
+  margin-bottom: 1rem;
+}
+
+.flash {
+  margin: 0.3rem 0;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #f7d794;
+  background: #fff2cc;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 6px 0 #d8cab0;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.form-block {
+  margin-bottom: 1rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  background: #fff;
+}
+
+button {
+  border: none;
+  border-radius: 9px;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(120deg, #0f766e, #0d9488);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.timeline-list {
+  display: grid;
+  gap: 0.6rem;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+}
+
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--accent);
+  border-radius: 10px;
+  padding: 0.7rem;
+  background: #fff;
+}
+
+.timeline-item.deadline {
+  border-left-color: var(--warning);
+}
+
+.title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.meta {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.item-right {
+  display: grid;
+  justify-items: end;
+  gap: 0.35rem;
+}
+
+.pill {
+  font-size: 0.72rem;
+  border-radius: 999px;
+  padding: 0.18rem 0.55rem;
+  border: 1px solid transparent;
+}
+
+.priority-high {
+  background: #ffe0db;
+  border-color: #fdbaaa;
+  color: var(--danger);
+}
+
+.priority-medium {
+  background: #fff4d4;
+  border-color: #f7d794;
+  color: #935116;
+}
+
+.priority-low {
+  background: #d9fbe5;
+  border-color: #9ae6b4;
+  color: #216e39;
+}
+
+.priority-block {
+  background: var(--accent-soft);
+  border-color: #8de3d8;
+  color: #0b5c55;
+}
+
+.mini-btn {
+  font-size: 0.74rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+}
+
+.subject-card {
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  padding: 0.75rem;
+}
+
+.subject-card h3 {
+  margin: 0;
+}
+
+.bar-shell {
+  margin-top: 0.55rem;
+  height: 10px;
+  border-radius: 999px;
+  background: #e9dbc2;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0f766e, #22c55e);
+}
+
+.empty {
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview {
+    width: 100%;
+  }
+}
