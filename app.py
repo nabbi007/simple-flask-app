@@ -6,7 +6,7 @@ from pathlib import Path
 from flask import Flask, flash, g, redirect, render_template, request, url_for
 
 app = Flask(__name__)
-app.secret_key = "study-planner-secret"
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-in-production")
 
 DB_PATH = Path(os.environ.get("PLANNER_DB_PATH", Path(__file__).with_name("planner.db")))
 

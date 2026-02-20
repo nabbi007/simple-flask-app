@@ -31,6 +31,17 @@ docker run -d \
   study-planner
 ```
 
+**For production**, override the secret key:
+
+```bash
+docker run -d \
+  --name study-planner \
+  -p 5000:5000 \
+  -e SECRET_KEY="your-random-secret-key-here" \
+  -v planner_data:/data \
+  study-planner
+```
+
 Open `http://localhost:5000`.
 
 ### Docker Commands
@@ -55,3 +66,15 @@ docker volume rm planner_data
 The app uses SQLite and reads `PLANNER_DB_PATH`.
 - Local default: `./planner.db`
 - Docker default: `/data/planner.db` (mounted to `planner_data` volume)
+
+## Environment Variables
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `SECRET_KEY` | Flask session secret (for flash messages & sessions) | `dev-secret-change-in-production` |
+| `PLANNER_DB_PATH` | SQLite database file location | `./planner.db` (local) or `/data/planner.db` (Docker) |
+
+**Security Note:** Always set a unique `SECRET_KEY` in production. Generate one with:
+```bash
+python3 -c "import secrets; print(secrets.token_hex(32))"
+```

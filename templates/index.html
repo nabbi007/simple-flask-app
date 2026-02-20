@@ -47,27 +47,27 @@
       <aside class="panel forms-panel">
         <h2>Add Subject</h2>
         <form method="post" action="{{ url_for('add_subject') }}" class="form-block">
-          <label>Subject Name</label>
-          <input type="text" name="name" placeholder="Calculus" required>
-          <label>Weekly Goal (hours)</label>
-          <input type="number" name="goal_hours" min="1" value="8" required>
+          <label for="subject-name">Subject Name</label>
+          <input type="text" id="subject-name" name="name" placeholder="Calculus" required>
+          <label for="goal-hours">Weekly Goal (hours)</label>
+          <input type="number" id="goal-hours" name="goal_hours" min="1" value="8" required>
           <button type="submit">Save Subject</button>
         </form>
 
         <h2>Add Deadline</h2>
         <form method="post" action="{{ url_for('add_deadline') }}" class="form-block">
-          <label>Subject</label>
-          <select name="subject_id" required {% if not subjects %}disabled{% endif %}>
+          <label for="deadline-subject">Subject</label>
+          <select id="deadline-subject" name="subject_id" required {% if not subjects %}disabled{% endif %}>
             {% for subject in subjects %}
               <option value="{{ subject['id'] }}">{{ subject['name'] }}</option>
             {% endfor %}
           </select>
-          <label>Deadline Title</label>
-          <input type="text" name="title" placeholder="Project draft" required>
-          <label>Due Date</label>
-          <input type="date" name="due_date" required>
-          <label>Priority</label>
-          <select name="priority">
+          <label for="deadline-title">Deadline Title</label>
+          <input type="text" id="deadline-title" name="title" placeholder="Project draft" required>
+          <label for="due-date">Due Date</label>
+          <input type="date" id="due-date" name="due_date" required>
+          <label for="priority">Priority</label>
+          <select id="priority" name="priority">
             <option value="High">High</option>
             <option value="Medium" selected>Medium</option>
             <option value="Low">Low</option>
@@ -77,20 +77,20 @@
 
         <h2>Add Study Block</h2>
         <form method="post" action="{{ url_for('add_study_block') }}" class="form-block">
-          <label>Subject</label>
-          <select name="subject_id" required {% if not subjects %}disabled{% endif %}>
+          <label for="block-subject">Subject</label>
+          <select id="block-subject" name="subject_id" required {% if not subjects %}disabled{% endif %}>
             {% for subject in subjects %}
               <option value="{{ subject['id'] }}">{{ subject['name'] }}</option>
             {% endfor %}
           </select>
-          <label>Date</label>
-          <input type="date" name="block_date" required>
-          <label>Start Time</label>
-          <input type="time" name="start_time" required>
-          <label>End Time</label>
-          <input type="time" name="end_time" required>
-          <label>Focus Task</label>
-          <input type="text" name="focus" placeholder="Review chapter 5" required>
+          <label for="block-date">Date</label>
+          <input type="date" id="block-date" name="block_date" required>
+          <label for="start-time">Start Time</label>
+          <input type="time" id="start-time" name="start_time" required>
+          <label for="end-time">End Time</label>
+          <input type="time" id="end-time" name="end_time" required>
+          <label for="focus-task">Focus Task</label>
+          <input type="text" id="focus-task" name="focus" placeholder="Review chapter 5" required>
           <button type="submit" {% if not subjects %}disabled{% endif %}>Save Block</button>
         </form>
       </aside>
